@@ -1,0 +1,106 @@
+body {
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    background: linear-gradient(to right, #ffccff, #87ceeb);
+    /* Pink and sky blue gradient */
+    color: #333;
+    perspective: 1000px;
+    /* Perspective for 3D effect */
+}
+
+header {
+    background-color: #33e4fb;
+    /* Bright pink */
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+h1 {
+    font-size: 3em;
+    text-shadow: 2px 2px #fff;
+}
+
+h2 {
+    font-size: 2em;
+    margin: 20px 0;
+    text-align: center;
+    color: #ff1493;
+    /* Deeper pink */
+}
+
+.player {
+    display: inline-block;
+    margin: 20px;
+    padding: 10px;
+    border: 2px solid #ff69b4;
+    /* Bright pink */
+    border-radius: 10px;
+    transition: transform 0.3s;
+    cursor: pointer;
+    background-color: #ffffff;
+    /* White background for player cards */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    /* Center text for player names */
+}
+
+.player:hover {
+    transform: scale(1.05) rotateY(5deg);
+    /* Added 3D rotation on hover */
+}
+
+.player img {
+    width: 150px;
+    /* Set uniform width for images */
+    height: auto;
+    /* Maintain aspect ratio */
+    border-radius: 5px;
+    /* Round corners */
+}
+
+#player-profile {
+    transform-style: preserve-3d;
+    transition: transform 0.6s;
+    margin-top: 20px;
+}
+
+#profile-content {
+    background-color: #ffffff;
+    border: 2px solid #ff69b4;
+    /* Bright pink */
+    border-radius: 10px;
+    padding: 20px;
+    margin-top: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+#interactive-map,
+#top-matches,
+#fan-zone {
+    margin-top: 40px;
+    text-align: center;
+}
+
+footer {
+    text-align: center;
+    padding: 10px;
+    background-color: #ff69b4;
+    /* Bright pink */
+    color: white;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+
+
+/* Additional styles for interactive elements */
+
+#fan-story {
+    width: 100%;
+    height: 100px;
+    border-radius: 5px;
+    border: 1px solid #ff69b4;
+    /* Bright pink */
+    padding: 10px;
+    margin-top: 10px;
+}

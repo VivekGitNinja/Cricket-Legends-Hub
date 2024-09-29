@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Cricket Legends Hub</title>
+</head>
+
+<body>
+    <header>
+        <h1>Cricket Legends Hub</h1>
+        <p>Your go-to destination for cricket stars!</p>
+    </header>
+
+    <main>
+        <section id="featured-players">
+            <h2>Featured Players</h2>
+            <div class="player" onclick="showProfile('sachin')">
+                <h3>Sachin Tendulkar</h3>
+                <img src="https://i.pinimg.com/736x/15/b4/bf/15b4bf2345221fe8eec37f270030fb29.jpg" alt="Sachin Tendulkar">
+            </div>
+            <div class="player" onclick="showProfile('shaheen')">
+                <h3>Shaheen Afridi</h3>
+                <img src="https://w0.peakpx.com/wallpaper/646/937/HD-wallpaper-shaheen-afridi-america-cricket-india-pakistan-pcb-real-marid-shaheen-afridi-shahid-afridi.jpg" alt="Shaheen Afridi">
+            </div>
+            <div class="player" onclick="showProfile('warne')">
+                <h3>Shane Warne</h3>
+                <img src="https://www.hotstuffsporting.com.au/images/stories/virtuemart/product/SHANE_WARNE____K_4e6d72da07b25.jpg" alt="Shane Warne">
+            </div>
+            <div class="player" onclick="showProfile('kohli')">
+                <h3>Virat Kohli</h3>
+                <img src="https://m.media-amazon.com/images/I/61U+PYfQZXL._AC_UF1000,1000_QL80_.jpg" alt="Virat Kohli">
+            </div>
+            <div class="player" onclick="showProfile('malinga')">
+                <h3>Lasith Malinga</h3>
+                <img src="https://pbs.twimg.com/media/E_Uq7CiWQAA6vis.jpg:large" alt="Lasith Malinga">
+            </div>
+            <div class="player" onclick="showProfile('ponting')">
+                <h3>Ricky Ponting</h3>
+                <img src="https://pbs.twimg.com/media/FkVAt3raMAUOzd3.jpg:large" alt="Ricky Ponting">
+            </div>
+        </section>
+
+        <section id="player-profile">
+            <h2>Player Profile</h2>
+            <div id="profile-content"></div>
+        </section>
+
+        <section id="interactive-map">
+            <h2>Interactive Map</h2>
+            <div id="map-container">
+                <p>Map showing player hometowns will go here.</p>
+                <!-- Placeholder for interactive map -->
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3151.8354345098834!2d144.9537353156822!3d-37.81720997975114!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad642af0b0e4e77%3A0xdabe4b711cf4c6b!2sMelbourne%20Australia!5e0!3m2!1sen!2sin!4v1641282048198!5m2!1sen!2sin"
+                    width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+        </section>
+
+        <section id="top-matches">
+            <h2>Top Matches</h2>
+            <div class="match">
+                <h3>Match 1: India vs Pakistan - World Cup 2019</h3>
+                <p>Highlights of the match will be displayed here.</p>
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/VIDEO_ID" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+            <div class="match">
+                <h3>Match 2: Australia vs New Zealand - Final 2020</h3>
+                <p>Highlights of the match will be displayed here.</p>
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/VIDEO_ID" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+            <!-- Add more matches as needed -->
+        </section>
+
+        <section id="fan-zone">
+            <h2>Fan Zone</h2>
+            <p>Submit your favorite player stories:</p>
+            <textarea id="fan-story" placeholder="Share your story..."></textarea>
+            <button onclick="submitStory()">Submit</button>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Cricket Legends Hub</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
