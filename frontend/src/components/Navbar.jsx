@@ -14,7 +14,7 @@ function Navbar() {
             </Link>
           </li>
           <li>
-            <Link to="/players" className="text-white/70 hover:text-white transition-colors">
+            <Link to="/players" className="text-white/70 hover:text-white transition-colors"> 
               Players
             </Link>
           </li>
