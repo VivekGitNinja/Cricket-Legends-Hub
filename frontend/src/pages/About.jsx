@@ -2,7 +2,7 @@ import Footer from '../components/Footer';
 
 export default function About() {
   return (
-    <>
+    <>  
       <section className="min-h-screen py-20">
         <div className="max-w-5xl mx-auto px-4">
           <div className="text-center mb-16">
