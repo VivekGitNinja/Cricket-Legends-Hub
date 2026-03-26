@@ -1,4 +1,4 @@
-# Cricket Legends Hub
+# Cricket Legends Hub  
 
 A full-stack MERN (MongoDB, Express, React, Node.js) application for cricket enthusiasts to explore player statistics, match information, and team details. Built as a BTech final year project.
 
