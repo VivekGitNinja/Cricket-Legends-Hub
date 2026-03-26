@@ -11,6 +11,7 @@ import authRoutes from './routes/authRoutes.js';
 import playerRoutes from './routes/playerRoutes.js';
 import matchRoutes from './routes/matchRoutes.js';
 import connectDB from './config/db.js';
+import teamRoutes from './routes/teamRoutes.js';
 
 dotenv.config();
 
@@ -37,6 +38,7 @@ app.use(morgan('dev'));
 app.use('/api/auth', authRoutes);
 app.use('/api/players', playerRoutes);
 app.use('/api/matches', matchRoutes);
+app.use('/api/teams', teamRoutes);
 
 app.get('/api', (req, res) => {
   res.json({ message: 'Welcome to Cricket Legends Hub API v1.0.0' });
