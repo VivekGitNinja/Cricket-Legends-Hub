@@ -10,6 +10,7 @@ A full-stack MERN (MongoDB, Express, React, Node.js) application for cricket ent
 - **Team Details** - Explore national and franchise teams with rosters and stats
 - **Responsive UI** - Modern, mobile-friendly interface built with React and Tailwind CSS
 - **RESTful API** - Well-structured API with proper error handling and validation
+- - **Open Source** - Built and maintained on GitHub for the community
 
 ## Tech Stack
 
