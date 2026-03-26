@@ -30,3 +30,18 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: #475569;
 }
+
+
+html {
+  scroll-behavior: smooth;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+*::selection {
+  background: #f97316;
+  color: white;
+}
