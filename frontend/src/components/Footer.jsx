@@ -8,7 +8,7 @@ function Footer() {
         <h3 className="text-xl font-bold text-white mb-4">Cricket Legends Hub</h3>
         <p className="text-white/60 text-sm">Your ultimate destination for cricket statistics and match information.</p>
         <p className="text-white/40 text-xs mt-4">&copy; {currentYear} Cricket Legends Hub. All rights reserved.</p>
-      </div>
+      </div>  
     </footer>
   );
 }
