@@ -162,3 +162,6 @@ This project is licensed under the MIT License.
 
 - Data sourced from public cricket statistics
 - Built as a BTech final year project at NIET, Noida
+- 
+---
+*Last updated: March 28, 2026*
