@@ -1,37 +1,78 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#1a1a1a" />
-    
-    <base href="/Cricket-Legends-Hub/" />
-    
-    <title>Cricket Legends Hub | Hall of Fame & Statistics</title>
-    <meta name="title" content="Cricket Legends Hub | Hall of Fame & Statistics" />
-    <meta name="description" content="Discover the legacy of cricket's greatest players. Explore career stats, iconic matches, and the history of the sport." />
-    <link rel="icon" type="image/svg+xml" href="vite.svg" />
+    <meta name="theme-color" content="#05070d" />
+    <meta
+      name="description"
+      content="Explore cricket’s greatest legends with career stats, head-to-head comparisons, hall of fame rankings, dream team builder, and interactive timelines."
+    />
+    <meta
+      name="keywords"
+      content="cricket legends, player comparison, hall of fame, dream team, cricket statistics, GOAT calculator"
+    />
+    <meta name="author" content="Vivek Kumar Verma" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://vivekgitninja.github.io/Cricket-Legends-Hub/" />
+
+    <title>Cricket Legends Hub | Ultimate Cricket Legends Experience</title>
 
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://yourdomain.com/Cricket-Legends-Hub/" />
+    <meta property="og:url" content="https://vivekgitninja.github.io/Cricket-Legends-Hub/" />
     <meta property="og:title" content="Cricket Legends Hub" />
-    <meta property="og:description" content="The ultimate destination for cricket history and legendary player profiles." />
-    <meta property="og:image" content="og-image.jpg" />
+    <meta
+      property="og:description"
+      content="The ultimate cricket legends experience — rankings, comparisons, timelines, and more."
+    />
+    <meta property="og:image" content="https://vivekgitninja.github.io/Cricket-Legends-Hub/og-image.svg" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Cricket Legends Hub" />
+    <meta
+      name="twitter:description"
+      content="Premium cricket legends experience with GOAT rankings and head-to-head comparisons."
+    />
+    <meta name="twitter:image" content="https://vivekgitninja.github.io/Cricket-Legends-Hub/og-image.svg" />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.svg" />
+    <link rel="manifest" href="/manifest.webmanifest" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "Cricket Legends Hub",
+        "url": "https://vivekgitninja.github.io/Cricket-Legends-Hub/",
+        "description": "The ultimate cricket legends experience with stats, comparisons, and hall of fame rankings.",
+        "author": {
+          "@type": "Person",
+          "name": "Vivek Kumar Verma"
+        },
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://vivekgitninja.github.io/Cricket-Legends-Hub/legends?q={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      }
+    </script>
   </head>
-  
   <body>
     <noscript>
-      <div style="text-align: center; padding: 20px; font-family: sans-serif;">
-        <h1>JavaScript Required</h1>
-        <p>Please enable JavaScript to view the Cricket Legends Hub.</p>
+      <div style="font-family: system-ui, sans-serif; text-align: center; padding: 2rem">
+        <h1>JavaScript required</h1>
+        <p>Please enable JavaScript to experience Cricket Legends Hub.</p>
       </div>
     </noscript>
-
     <div id="root"></div>
-
-    <script type="module" src="src/main.jsx"></script>
+    <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

@@ -1,167 +1,197 @@
-# Cricket Legends Hub  
+# Cricket Legends Hub
 
-A full-stack MERN (MongoDB, Express, React, Node.js) application for cricket enthusiasts to explore player statistics, match information, and team details. Built as a BTech final year project.
+<p align="center">
+  <img src="frontend/public/og-image.svg" alt="Cricket Legends Hub banner" width="100%" />
+</p>
+
+<p align="center">
+  <strong>The Ultimate Cricket Legends Experience</strong><br/>
+  Premium product-grade web app for exploring cricket’s greatest players, records, and moments.
+</p>
+
+<p align="center">
+  <a href="#features">Features</a> ·
+  <a href="#tech-stack">Tech Stack</a> ·
+  <a href="#quick-start">Quick Start</a> ·
+  <a href="#architecture">Architecture</a> ·
+  <a href="#deployment">Deployment</a>
+</p>
+
+---
+
+## Overview
+
+Cricket Legends Hub is a full-stack MERN experience redesigned as a **portfolio-ready product**:
+
+- Glassmorphism UI with aurora backgrounds and motion
+- Offline-first curated legends dataset + optional live API
+- GOAT calculator, head-to-head compare, hall of fame rankings
+- Dream team builder, quiz, match archive, cricket timeline
+- Dark / light / system themes, command palette, PWA support
+- SEO metadata, sitemap, robots, structured data
+
+Built for fans, recruiters, and engineers who care about craft.
+
+---
 
 ## Features
 
-- **User Authentication** - JWT-based secure authentication with register, login, and profile management
-- **Player Management** - Browse, search, and filter cricket players with detailed statistics
-- **Match Information** - View upcoming and past matches with live scores and results
-- **Team Details** - Explore national and franchise teams with rosters and stats
-- **Responsive UI** - Modern, mobile-friendly interface built with React and Tailwind CSS
-- **RESTful API** - Well-structured API with proper error handling and validation
+| Area | Capabilities |
+|------|----------------|
+| **Legends** | Browse, filter, sort, favorites, detailed profiles |
+| **Compare** | Head-to-head metrics + interactive bar charts |
+| **Hall of Fame** | Transparent GOAT ranking model |
+| **Dream Team** | Build & persist an XI in local storage |
+| **Quiz** | 10-question legend knowledge test with best score |
+| **Records** | Batting / bowling / team milestones |
+| **Matches** | Historic encounter archive |
+| **Timeline** | Cricket history from 1877 → modern era |
+| **UX** | ⌘K command palette, scroll progress, back-to-top, reduced motion |
+| **PWA** | Installable manifest + service worker (production) |
+
+---
 
 ## Tech Stack
 
-### Backend
-- Node.js & Express.js
-- MongoDB with Mongoose ODM
-- JWT Authentication (jsonwebtoken)
-- bcryptjs for password hashing
-- CORS, Helmet, Morgan middleware
-- Rate limiting for API protection
+**Frontend:** React 18 · Vite 5 · Tailwind CSS · Framer Motion · Recharts · Lucide · React Router  
+**Backend:** Node.js · Express · MongoDB · Mongoose · JWT · Helmet · Rate limiting  
+**Quality:** Modular architecture · Design tokens · Lazy routes · Code splitting · Accessibility-first markup
 
-### Frontend
-- React 18 with Vite
-- Tailwind CSS
-- React Router DOM
-- Axios for API calls
-- React Context API for state management
+---
 
-## Project Structure
+## Quick Start
+
+### Prerequisites
+
+- Node.js 18+
+- MongoDB (optional for frontend-only; required for API auth/CRUD)
+
+### Frontend (works offline with curated data)
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+Open **http://localhost:5173**
+
+### Backend (optional API)
+
+```bash
+cd backend
+cp .env.example .env   # or use existing .env
+npm install
+npm run seed
+npm run dev
+```
+
+API: **http://localhost:5000/api**
+
+Seeded accounts:
+
+- Admin: `admin@cricketlegends.com` / `admin123`
+- Demo: `demo@cricketlegends.com` / `demo123`
+
+---
+
+## Architecture
 
 ```
 Cricket-Legends-Hub/
-├── backend/
-│   ├── config/
-│   │   └── db.js          # MongoDB connection
-│   ├── controllers/
-│   │   ├── authController.js
-│   │   ├── playerController.js
-│   │   └── matchController.js
-│   ├── middleware/
-│   │   └── auth.js        # JWT verification
-│   ├── models/
-│   │   ├── User.js
-│   │   ├── Player.js
-│   │   ├── Match.js
-│   │   └── Team.js
-│   ├── routes/
-│   │   ├── authRoutes.js
-│   │   ├── playerRoutes.js
-│   │   └── matchRoutes.js
-│   ├── package.json
-│   └── server.js
-├── .gitignore
-└── README.md
+├── frontend/
+│   ├── public/                 # PWA, SEO, icons
+│   └── src/
+│       ├── animations/         # Motion variants
+│       ├── components/
+│       │   ├── charts/         # Recharts wrappers
+│       │   ├── effects/        # Aurora, progress, back-to-top
+│       │   ├── layout/         # Navbar, Footer, shell
+│       │   ├── legends/        # Cards, filters
+│       │   ├── search/         # Command palette
+│       │   └── ui/             # Design system primitives
+│       ├── config/             # Site config, nav
+│       ├── context/            # Theme + app state
+│       ├── data/               # Curated legends dataset
+│       ├── hooks/              # Motion, counters
+│       ├── pages/              # Route screens
+│       ├── styles/             # Design tokens
+│       └── utils/              # Format, GOAT, storage, cn
+└── backend/
+    ├── config/ controllers/ middleware/ models/ routes/
+    ├── seed.js
+    └── server.js
 ```
 
-## Installation
+---
 
-### Backend Setup
+## Keyboard Shortcuts
 
-1. Navigate to the backend directory:
-   ```bash
-   cd backend
-   ```
+| Shortcut | Action |
+|----------|--------|
+| `⌘/Ctrl + K` | Open command palette |
+| `Esc` | Close palette |
+| Theme button | Cycle dark → light → system |
 
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
+---
 
-3. Create a `.env` file with the following variables:
-   ```
-   PORT=5000
-   MONGODB_URI=mongodb://localhost:27017/cricket-legends
-   JWT_SECRET=your_jwt_secret_key
-   FRONTEND_URL=http://localhost:5173
-   NODE_ENV=development
-   ```
+## Deployment
 
-4. Start the server:
-   ```bash
-   npm run dev
-   ```
+### GitHub Pages
 
-### Frontend Setup
+Workflow sets `VITE_BASE=/Cricket-Legends-Hub/` and publishes `frontend/dist`.
 
-1. Navigate to the frontend directory:
-   ```bash
-   cd frontend
-   ```
+### Vercel / Netlify / Cloudflare Pages
 
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
+- **Root:** `frontend`
+- **Build:** `npm run build`
+- **Output:** `dist`
+- **Base path:** `/` (default)
 
-3. Start the development server:
-   ```bash
-   npm run dev
-   ```
+SPA fallback: redirect all routes to `index.html`.
 
-## API Endpoints
+---
 
-### Authentication
-| Method | Endpoint | Description | Auth Required |
-|--------|----------|-------------|---------------|
-| POST | /api/auth/register | Register new user | No |
-| POST | /api/auth/login | Login user | No |
-| GET | /api/auth/profile | Get user profile | Yes |
-| PUT | /api/auth/profile | Update user profile | Yes |
+## Scripts
 
-### Players
-| Method | Endpoint | Description | Auth Required |
-|--------|----------|-------------|---------------|
-| GET | /api/players | Get all players (filterable) | No |
-| GET | /api/players/search | Search players | No |
-| GET | /api/players/:id | Get player by ID | No |
-| POST | /api/players | Create player | Admin |
-| PUT | /api/players/:id | Update player | Admin |
-| DELETE | /api/players/:id | Delete player | Admin |
+```bash
+# Frontend
+npm run dev
+npm run build
+npm run preview
 
-### Matches
-| Method | Endpoint | Description | Auth Required |
-|--------|----------|-------------|---------------|
-| GET | /api/matches | Get all matches (filterable) | No |
-| GET | /api/matches/:id | Get match by ID | No |
-| POST | /api/matches | Create match | Admin |
-| PUT | /api/matches/:id | Update match | Admin |
-| DELETE | /api/matches/:id | Delete match | Admin |
+# Backend
+npm run dev
+npm run seed
+npm start
+```
 
-## Database Models
+---
 
-### User
-- name, email, password (hashed), role
+## Documentation
 
-### Player
-- name, fullName, country, role, battingStyle, bowlingStyle
-- stats (runs, wickets, matches, averages)
-- currentTeam, dateOfBirth, playingFrom
+See [`docs/`](./docs/) for:
 
-### Match
-- team1, team2, format, venue, date, status
-- result (winner, margin), scores, manOfTheMatch
+- Architecture
+- Design system
+- Performance / SEO / Accessibility notes
+- Deployment guide
+- Changelog
 
-### Team
-- name, shortName, country, type (National/Franchise)
-- coach, captain, players, stats
-
-## License
-
-This project is licensed under the MIT License.
+---
 
 ## Author
 
-**Vivek Kumar Verma**
-- GitHub: [@VivekGitNinja](https://github.com/VivekGitNinja)
-- Email: vkumarverma670@gmail.com
+**Vivek Kumar Verma**  
+GitHub: [@VivekGitNinja](https://github.com/VivekGitNinja)  
+Email: vkumarverma670@gmail.com
 
-## Acknowledgments
-
-- Data sourced from public cricket statistics
-- Built as a BTech final year project at NIET, Noida
-- 
 ---
-*Last updated: March 28, 2026*
+
+## License
+
+MIT
+
+---
+
+*v2.0.0 — Premium redesign · July 2026*

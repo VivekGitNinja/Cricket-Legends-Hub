@@ -122,7 +122,16 @@ export const deletePlayer = async (req, res) => {
 export const searchPlayers = async (req, res) => {
   try {
     const { query } = req.query;
-    const searchRegex = new RegExp(query, 'i');
+
+    if (!query || !String(query).trim()) {
+      return res.status(400).json({
+        success: false,
+        message: 'Search query is required'
+      });
+    }
+
+    const escaped = String(query).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const searchRegex = new RegExp(escaped, 'i');
     const players = await Player.find({
       $or: [
         { name: searchRegex },

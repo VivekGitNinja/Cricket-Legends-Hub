@@ -6,13 +6,21 @@ const playerSchema = new mongoose.Schema({
     required: [true, 'Please provide player name'],
     trim: true
   },
+  fullName: {
+    type: String,
+    trim: true
+  },
+  nickName: {
+    type: String,
+    trim: true
+  },
   country: {
     type: String,
     required: true
   },
   role: {
     type: String,
-    enum: ['Batsman', 'Bowler', 'All-rounder', 'Wicket-keeper'],
+    enum: ['Batsman', 'Bowler', 'All-rounder', 'All-Rounder', 'Wicket-keeper', 'Wicket-Keeper'],
     required: true
   },
   battingStyle: {
@@ -26,9 +34,27 @@ const playerSchema = new mongoose.Schema({
   dateOfBirth: {
     type: Date
   },
+  playingFrom: {
+    type: Number
+  },
+  currentTeam: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Team'
+  },
   teams: [{
     type: String
   }],
+  format: {
+    type: String,
+    enum: ['Test', 'ODI', 'T20', 'All'],
+    default: 'All'
+  },
+  rating: {
+    type: Number,
+    default: 0,
+    min: 0,
+    max: 100
+  },
   stats: {
     test: {
       matches: { type: Number, default: 0 },
