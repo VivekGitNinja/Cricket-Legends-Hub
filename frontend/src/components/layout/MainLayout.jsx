@@ -1,6 +1,7 @@
 import { Outlet, useLocation } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useApp } from '../../context/AppContext'
+import { useKeyboardShortcuts } from '../../hooks/useKeyboardShortcuts'
 import { pageTransition } from '../../animations/variants'
 import AuroraBackground from '../effects/AuroraBackground'
 import BackToTop from '../effects/BackToTop'
@@ -13,6 +14,7 @@ import { cn } from '../../utils/cn'
 export default function MainLayout() {
   const location = useLocation()
   const { readingMode } = useApp()
+  useKeyboardShortcuts()
 
   return (
     <div className={cn('flex min-h-screen flex-col', readingMode && 'reading-mode')}>

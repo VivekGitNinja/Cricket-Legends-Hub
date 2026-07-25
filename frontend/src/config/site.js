@@ -32,6 +32,8 @@ export const NAV_LINKS = [
   { to: '/legends', label: 'Legends' },
   { to: '/compare', label: 'Compare' },
   { to: '/hall-of-fame', label: 'Hall of Fame' },
+  { to: '/goat', label: 'GOAT Lab' },
+  { to: '/countries', label: 'Countries' },
   { to: '/records', label: 'Records' },
   { to: '/matches', label: 'Matches' },
   { to: '/dream-team', label: 'Dream Team' },

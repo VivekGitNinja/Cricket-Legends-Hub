@@ -10,6 +10,7 @@ import Button from '../components/ui/Button'
 import Badge from '../components/ui/Badge'
 import Card from '../components/ui/Card'
 import LegendCard from '../components/legends/LegendCard'
+import Seo from '../components/ui/Seo'
 import StatPill from '../components/ui/StatPill'
 
 function HeroStat({ label, value }) {
@@ -23,6 +24,7 @@ export default function Home() {
 
   return (
     <>
+      <Seo path="/" />
       <section className="relative overflow-hidden pb-16 pt-16 md:pb-24 md:pt-24">
         <div className="mx-auto max-w-[var(--container)] px-4 sm:px-6 lg:px-8">
           <motion.div

@@ -1,9 +1,10 @@
 import { Link, useParams } from 'react-router-dom'
-import { Heart, Share2, Star, Users } from 'lucide-react'
+import { Download, Heart, Printer, Share2, Star, Users } from 'lucide-react'
 import { getLegendById } from '../data/legends'
 import { useApp } from '../context/AppContext'
 import { computeGoatBreakdown } from '../utils/goat'
 import { formatAverage, formatNumber } from '../utils/format'
+import { downloadCsv, downloadJson, legendToExportRows, printPage, shareText } from '../utils/export'
 import Avatar from '../components/ui/Avatar'
 import Badge from '../components/ui/Badge'
 import Button from '../components/ui/Button'
@@ -11,6 +12,7 @@ import Card from '../components/ui/Card'
 import CareerRadar from '../components/charts/CareerRadar'
 import EmptyState from '../components/ui/EmptyState'
 import Section from '../components/ui/Section'
+import Seo from '../components/ui/Seo'
 import StatPill from '../components/ui/StatPill'
 
 export default function LegendDetail() {
@@ -38,17 +40,31 @@ export default function LegendDetail() {
   const fav = isFavorite(legend.id)
 
   const share = async () => {
-    const url = window.location.href
-    if (navigator.share) {
-      await navigator.share({ title: legend.name, text: legend.bio, url })
-    } else {
-      await navigator.clipboard.writeText(url)
-      alert('Profile link copied to clipboard')
+    const result = await shareText({
+      title: legend.name,
+      text: legend.bio,
+      url: window.location.href,
+    })
+    if (result === 'copied') {
+      // eslint-disable-next-line no-alert
+      window.alert('Profile link copied to clipboard')
     }
   }
 
+  const exportStats = (format) => {
+    const rows = legendToExportRows(legend)
+    if (format === 'csv') downloadCsv(`${legend.id}-stats.csv`, rows)
+    else downloadJson(`${legend.id}-stats.json`, { legend, exportedAt: new Date().toISOString() })
+  }
+
   return (
-    <div className="pb-16">
+    <div className="pb-16 print:bg-white">
+      <Seo
+        title={legend.name}
+        description={legend.bio}
+        path={`/legends/${legend.id}`}
+        type="profile"
+      />
       <section className="border-b border-[var(--border-subtle)] bg-white/[0.02] py-12">
         <div className="mx-auto flex max-w-[var(--container)] flex-col gap-8 px-4 sm:px-6 lg:flex-row lg:items-center lg:px-8">
           <Avatar name={legend.name} src={legend.image} size="xl" className="shrink-0" />
@@ -86,6 +102,15 @@ export default function LegendDetail() {
               </Button>
               <Button variant="ghost" onClick={share}>
                 <Share2 className="h-4 w-4" /> Share
+              </Button>
+              <Button variant="ghost" onClick={() => exportStats('csv')} className="print:hidden">
+                <Download className="h-4 w-4" /> CSV
+              </Button>
+              <Button variant="ghost" onClick={() => exportStats('json')} className="print:hidden">
+                <Download className="h-4 w-4" /> JSON
+              </Button>
+              <Button variant="ghost" onClick={printPage} className="print:hidden">
+                <Printer className="h-4 w-4" /> Print
               </Button>
             </div>
           </div>

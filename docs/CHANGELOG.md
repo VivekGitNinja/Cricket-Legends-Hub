@@ -1,5 +1,19 @@
 # Changelog
 
+## 2.1.0 — 2026-07-26
+
+### Product depth
+
+- GOAT Calculator page with weighted breakdown bars
+- Country statistics page with aggregates
+- Profile export (CSV/JSON), share, and print styles
+- Reading mode toggle in navbar
+- Global keyboard shortcuts (`/`, `t`, `g` chords)
+- API client with offline fallback (`lib/api.js`)
+- SEO head manager component
+- Component documentation + Prettier config
+- Two additional legends (Ponting, Kapil Dev)
+
 ## 2.0.0 — 2026-07-24
 
 ### Complete product redesign

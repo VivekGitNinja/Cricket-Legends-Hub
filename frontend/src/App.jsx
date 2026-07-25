@@ -16,6 +16,8 @@ const DreamTeam = lazy(() => import('./pages/DreamTeam'))
 const Quiz = lazy(() => import('./pages/Quiz'))
 const Timeline = lazy(() => import('./pages/Timeline'))
 const Favorites = lazy(() => import('./pages/Favorites'))
+const Countries = lazy(() => import('./pages/Countries'))
+const GoatCalculator = lazy(() => import('./pages/GoatCalculator'))
 const About = lazy(() => import('./pages/About'))
 const NotFound = lazy(() => import('./pages/NotFound'))
 
@@ -54,6 +56,8 @@ export default function App() {
                 <Route path="quiz" element={<Quiz />} />
                 <Route path="timeline" element={<Timeline />} />
                 <Route path="favorites" element={<Favorites />} />
+                <Route path="countries" element={<Countries />} />
+                <Route path="goat" element={<GoatCalculator />} />
                 <Route path="about" element={<About />} />
                 <Route path="*" element={<NotFound />} />
               </Route>

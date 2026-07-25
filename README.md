@@ -46,7 +46,10 @@ Built for fans, recruiters, and engineers who care about craft.
 | **Records** | Batting / bowling / team milestones |
 | **Matches** | Historic encounter archive |
 | **Timeline** | Cricket history from 1877 → modern era |
-| **UX** | ⌘K command palette, scroll progress, back-to-top, reduced motion |
+| **GOAT Lab** | Transparent weighted calculator with live breakdown |
+| **Countries** | Nation-level aggregate stats and legend chips |
+| **Export** | CSV/JSON download + print-friendly profiles |
+| **UX** | ⌘K palette, reading mode, scroll progress, keyboard jumps, reduced motion |
 | **PWA** | Installable manifest + service worker (production) |
 
 ---
@@ -129,9 +132,11 @@ Cricket-Legends-Hub/
 
 | Shortcut | Action |
 |----------|--------|
-| `⌘/Ctrl + K` | Open command palette |
+| `⌘/Ctrl + K` or `/` | Open command palette |
 | `Esc` | Close palette |
-| Theme button | Cycle dark → light → system |
+| `T` | Cycle theme |
+| `G` then `H/L/C/F/D/Q/O/N` | Jump Home / Legends / Compare / HoF / Dream / Quiz / GOAT / Nations |
+| Reading mode button | Narrow content column for focus |
 
 ---
 

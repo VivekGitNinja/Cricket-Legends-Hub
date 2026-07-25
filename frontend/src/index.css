@@ -96,6 +96,30 @@
   animation: aurora 22s ease-in-out infinite reverse;
 }
 
+/* Print-friendly profile view */
+@media print {
+  .print\:hidden,
+  header,
+  footer,
+  [role='progressbar'],
+  .fixed {
+    display: none !important;
+  }
+
+  body {
+    background: white !important;
+    color: black !important;
+  }
+
+  main {
+    padding: 0 !important;
+  }
+
+  a {
+    text-decoration: none !important;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

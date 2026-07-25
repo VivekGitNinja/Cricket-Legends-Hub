@@ -9,6 +9,8 @@ import { cn } from '../../utils/cn'
 const QUICK = [
   { label: 'Hall of Fame', to: '/hall-of-fame', icon: Trophy },
   { label: 'Compare Legends', to: '/compare', icon: Users },
+  { label: 'GOAT Calculator', to: '/goat', icon: Trophy },
+  { label: 'Countries', to: '/countries', icon: Users },
   { label: 'Dream Team', to: '/dream-team', icon: Zap },
   { label: 'Favorites', to: '/favorites', icon: Heart },
   { label: 'Quiz', to: '/quiz', icon: BookOpen },

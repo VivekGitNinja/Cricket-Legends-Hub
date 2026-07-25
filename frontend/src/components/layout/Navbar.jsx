@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
-import { Command, Heart, Menu, Moon, Search, Sun, X } from 'lucide-react'
+import { BookOpen, Command, Heart, Menu, Moon, Search, Sun, X } from 'lucide-react'
 import { NAV_LINKS } from '../../config/site'
 import { useApp } from '../../context/AppContext'
 import { useTheme } from '../../context/ThemeContext'
@@ -8,12 +8,12 @@ import { cn } from '../../utils/cn'
 import Button from '../ui/Button'
 
 const primaryLinks = NAV_LINKS.filter((l) =>
-  ['/', '/legends', '/compare', '/hall-of-fame', '/dream-team', '/quiz'].includes(l.to)
+  ['/', '/legends', '/compare', '/hall-of-fame', '/goat', '/dream-team'].includes(l.to)
 )
 
 export default function Navbar() {
   const [open, setOpen] = useState(false)
-  const { setCommandOpen, favorites } = useApp()
+  const { setCommandOpen, favorites, readingMode, setReadingMode } = useApp()
   const { resolved, cycleTheme } = useTheme()
 
   return (
@@ -79,6 +79,16 @@ export default function Navbar() {
               </span>
             )}
           </Link>
+          <Button
+            size="icon"
+            variant="ghost"
+            aria-label={readingMode ? 'Exit reading mode' : 'Enter reading mode'}
+            aria-pressed={readingMode}
+            onClick={() => setReadingMode((v) => !v)}
+            className="hidden sm:inline-flex"
+          >
+            <BookOpen className={cn('h-4 w-4', readingMode && 'text-orange-400')} />
+          </Button>
           <Button size="icon" variant="ghost" aria-label="Toggle theme" onClick={cycleTheme}>
             {resolved === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
           </Button>
