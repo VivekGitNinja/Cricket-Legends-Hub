@@ -12,6 +12,10 @@
 - Resilient scraper (`backend/services/cricbuzz.js`): direct fetch with jina-reader proxy fallback, short-TTL cache, last-good-snapshot serving when the source is unreachable; matches normalized to the existing frontend shape so nothing downstream changed
 - Verified: backend 19/19 tests, frontend build clean + 33/33 tests + 0 lint errors, console clean, scorecard + countdowns + SSE push all confirmed in the preview
 
+### Fix
+
+- **GitHub Pages 404 at the root** — `BrowserRouter` had no `basename`, so on the deployed site the root URL `/Cricket-Legends-Hub/` matched no route and fell through to the 404 page (and every link resolved to `/` instead of the subpath). The router now takes `basename={import.meta.env.BASE_URL}`, so the home page and all deep links work on the live site; verified in a browser against the production build served at the subpath and confirmed live on vivekgitninja.github.io
+
 ## 2.8.0 — 2026-08-11
 
 ### Paradigm navy/blue redesign — inspired by the Dribbble tech-consulting shot
