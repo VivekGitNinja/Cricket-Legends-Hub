@@ -34,6 +34,11 @@ jobs:
         run: npm run build
         env:
           VITE_BASE: /Cricket-Legends-Hub/
+          # Optional: set the repository secret VITE_API_URL to the deployed
+          # backend (e.g. https://cricket-legends-api.onrender.com/api) and the
+          # hosted site will talk to the real API + database. Without it the
+          # static site falls back to baked-in local data.
+          VITE_API_URL: ${{ secrets.VITE_API_URL }}
 
       - name: Add SPA fallback + no-Jekyll marker
         working-directory: frontend

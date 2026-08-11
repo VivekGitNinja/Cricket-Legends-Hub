@@ -1,0 +1,35 @@
+# Render blueprint — deploys the Express API on Render's free tier.
+#
+# Deploy:  https://render.com → New → Blueprint → select this repo,
+# or press "New +" → Blueprint and paste the repo URL.
+#
+# After creation you MUST fill two env vars in the Render dashboard
+# (Service → Environment):
+#   MONGODB_URI  — your MongoDB Atlas connection string
+#   JWT_SECRET   — any long random string
+#
+# Also in Atlas: Database Access → add a user; Network Access → allow
+# 0.0.0.0/0 (anywhere) so Render can reach the cluster.
+
+services:
+  - type: web
+    name: cricket-legends-api
+    runtime: node
+    plan: free
+    region: singapore
+    buildCommand: npm ci
+    startCommand: node server.js
+    healthCheckPath: /api
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: FRONTEND_URL
+        value: https://vivekgitninja.github.io/Cricket-Legends-Hub
+      - key: MONGODB_URI
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: RATE_LIMIT_MAX
+        value: "500"

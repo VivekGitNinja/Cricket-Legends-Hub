@@ -106,13 +106,19 @@ export default function MatchDetail() {
   const { id } = useParams()
   const [match, setMatch] = useState(null)
   const [error, setError] = useState(false)
+  const [offline, setOffline] = useState(false)
 
   useEffect(() => {
     let mounted = true
     api
       .getMatchLive(id)
       .then((m) => mounted && setMatch(m))
-      .catch(() => mounted && setError(true))
+      .catch((err) => {
+        if (!mounted) return
+        setError(true)
+        // A 404 is a genuinely unknown match; anything else is the API being offline.
+        setOffline(!err?.status || err.status !== 404)
+      })
     return () => {
       mounted = false
     }
@@ -120,9 +126,13 @@ export default function MatchDetail() {
 
   if (error) {
     return (
-      <Section title="Match not found">
+      <Section title={offline ? 'Live backend offline' : 'Match not found'}>
         <Card hover={false} className="p-10 text-center">
-          <p className="text-[var(--text-secondary)]">We couldn't find that match.</p>
+          <p className="text-[var(--text-secondary)]">
+            {offline
+              ? 'This site has no live backend right now, so match details aren\'t available here. Run the app locally, or deploy the API + database (see docs/DEPLOY_BACKEND.md) to unlock real scorecards on this URL.'
+              : "We couldn't find that match."}
+          </p>
           <Button as={Link} to="/matches" className="mt-6">
             Back to matches
           </Button>

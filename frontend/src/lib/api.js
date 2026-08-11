@@ -15,7 +15,11 @@ async function request(path, options = {}) {
         ...(options.headers || {}),
       },
     })
-    if (!res.ok) throw new Error(`API ${res.status}`)
+    if (!res.ok) {
+      const err = new Error(`API ${res.status}`)
+      err.status = res.status
+      throw err
+    }
     return await res.json()
   } finally {
     clearTimeout(timeout)
