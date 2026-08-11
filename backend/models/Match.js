@@ -64,7 +64,24 @@ const matchSchema = new mongoose.Schema({
     enum: ['bat', 'bowl']
   },
   series: String,
-  notes: String
+  notes: String,
+  // Live-match fields: simulated/observed progress + ball-by-ball commentary
+  live: {
+    inProgress: { type: Boolean, default: false },
+    battingTeam: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Team'
+    },
+    target: Number,
+    lastWicket: String,
+    summary: String
+  },
+  commentary: [{
+    over: String,
+    ball: Number,
+    text: String,
+    runs: Number
+  }]
 }, {
   timestamps: true
 });
@@ -72,5 +89,6 @@ const matchSchema = new mongoose.Schema({
 matchSchema.index({ date: -1 });
 matchSchema.index({ format: 1 });
 matchSchema.index({ status: 1 });
+matchSchema.index({ 'live.inProgress': 1 });
 
 export default mongoose.model('Match', matchSchema);

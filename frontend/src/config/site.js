@@ -29,13 +29,19 @@ export const SITE = {
 
 export const NAV_LINKS = [
   { to: '/', label: 'Home' },
+  { to: '/live', label: 'Live' },
+  { to: '/news', label: 'News' },
   { to: '/legends', label: 'Legends' },
+  { to: '/players', label: 'Players' },
   { to: '/compare', label: 'Compare' },
   { to: '/hall-of-fame', label: 'Hall of Fame' },
   { to: '/goat', label: 'GOAT Lab' },
+  { to: '/world-cups', label: 'World Cups' },
+  { to: '/rankings', label: 'Rankings' },
   { to: '/countries', label: 'Countries' },
   { to: '/records', label: 'Records' },
   { to: '/matches', label: 'Matches' },
+  { to: '/squads', label: 'Squads' },
   { to: '/dream-team', label: 'Dream Team' },
   { to: '/quiz', label: 'Quiz' },
   { to: '/timeline', label: 'Timeline' },
@@ -48,5 +54,7 @@ export const SHORTCUTS = [
   { keys: ['G', 'H'], label: 'Go home' },
   { keys: ['G', 'L'], label: 'Go legends' },
   { keys: ['G', 'C'], label: 'Go compare' },
+  { keys: ['G', 'W'], label: 'Go world cups' },
+  { keys: ['G', 'R'], label: 'Go rankings' },
   { keys: ['T'], label: 'Toggle theme' },
 ]

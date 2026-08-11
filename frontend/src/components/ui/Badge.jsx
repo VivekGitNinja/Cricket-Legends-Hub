@@ -1,8 +1,8 @@
 import { cn } from '../../utils/cn'
 
 const tones = {
-  brand: 'bg-orange-500/15 text-orange-300 border-orange-500/25',
-  gold: 'bg-amber-400/15 text-amber-300 border-amber-400/25',
+  brand: 'bg-[#235D94]/20 text-[#A5C7E0] border-[#539AC1]/40',
+  gold: 'bg-[#539AC1]/15 text-[#7EC8F2] border-[#539AC1]/30',
   sky: 'bg-sky-500/15 text-sky-300 border-sky-500/25',
   emerald: 'bg-emerald-500/15 text-emerald-300 border-emerald-500/25',
   violet: 'bg-violet-500/15 text-violet-300 border-violet-500/25',

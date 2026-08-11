@@ -1,9 +1,11 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { BookOpen, Heart, Search, Trophy, Users, Zap } from 'lucide-react'
 import { NAV_LINKS } from '../../config/site'
 import { useApp } from '../../context/AppContext'
+import { api } from '../../lib/api'
 import { searchLegends } from '../../data/legends'
+import PlayerAvatar from '../ui/PlayerAvatar'
 import { cn } from '../../utils/cn'
 
 const QUICK = [
@@ -20,7 +22,34 @@ export default function CommandPalette() {
   const { commandOpen, setCommandOpen } = useApp()
   const [query, setQuery] = useState('')
   const [active, setActive] = useState(0)
+  const [apiPlayers, setApiPlayers] = useState([])
+  const [searching, setSearching] = useState(false)
   const navigate = useNavigate()
+  const debounceRef = useRef(null)
+
+  // Live search across the full backend catalog (340+ players, any country/era)
+  useEffect(() => {
+    if (!commandOpen) {
+      setApiPlayers([])
+      return undefined
+    }
+    const q = query.trim()
+    if (!q) {
+      setApiPlayers([])
+      setSearching(false)
+      return undefined
+    }
+    setSearching(true)
+    clearTimeout(debounceRef.current)
+    debounceRef.current = setTimeout(() => {
+      api
+        .searchPlayers(q)
+        .then((players) => setApiPlayers(Array.isArray(players) ? players.slice(0, 8) : []))
+        .catch(() => setApiPlayers([]))
+        .finally(() => setSearching(false))
+    }, 250)
+    return () => clearTimeout(debounceRef.current)
+  }, [query, commandOpen])
 
   const results = useMemo(() => {
     const legends = searchLegends(query).slice(0, 6).map((l) => ({
@@ -29,6 +58,14 @@ export default function CommandPalette() {
       label: l.name,
       meta: `${l.country} · ${l.role}`,
       to: `/legends/${l.id}`,
+    }))
+    const catalog = apiPlayers.map((p) => ({
+      type: 'player',
+      id: p._id,
+      label: p.name,
+      meta: `${p.country} · ${p.role}${p.isLegend ? ' · Legend' : ''}`,
+      to: `/players/${p._id}`,
+      photo: p.imageUrl,
     }))
     const pages = NAV_LINKS.filter((l) =>
       l.label.toLowerCase().includes(query.toLowerCase())
@@ -42,8 +79,8 @@ export default function CommandPalette() {
     const quick = !query
       ? QUICK.map((q) => ({ type: 'quick', id: q.to, label: q.label, meta: 'Quick action', to: q.to, icon: q.icon }))
       : []
-    return [...quick, ...pages, ...legends]
-  }, [query])
+    return [...quick, ...pages, ...catalog, ...legends]
+  }, [query, apiPlayers])
 
   useEffect(() => {
     if (!commandOpen) {
@@ -51,6 +88,14 @@ export default function CommandPalette() {
       setActive(0)
     }
   }, [commandOpen])
+
+  const go = useCallback(
+    (to) => {
+      navigate(to)
+      setCommandOpen(false)
+    },
+    [navigate, setCommandOpen]
+  )
 
   useEffect(() => {
     setActive(0)
@@ -74,12 +119,7 @@ export default function CommandPalette() {
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [commandOpen, results, active])
-
-  const go = (to) => {
-    navigate(to)
-    setCommandOpen(false)
-  }
+  }, [commandOpen, results, active, go])
 
   if (!commandOpen) return null
 
@@ -103,7 +143,7 @@ export default function CommandPalette() {
             autoFocus
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search legends, pages, actions…"
+            placeholder="Search any player, legend, page, action… (340+ players)"
             className="w-full bg-transparent py-4 text-sm text-[var(--text-primary)] outline-none placeholder:text-[var(--text-muted)]"
             aria-label="Search"
           />
@@ -113,7 +153,9 @@ export default function CommandPalette() {
         </div>
         <ul className="max-h-80 overflow-y-auto p-2" role="listbox">
           {results.length === 0 && (
-            <li className="px-3 py-8 text-center text-sm text-[var(--text-muted)]">No results</li>
+            <li className="px-3 py-8 text-center text-sm text-[var(--text-muted)]">
+              {searching ? 'Searching players…' : 'No results'}
+            </li>
           )}
           {results.map((item, index) => {
             const Icon = item.icon
@@ -132,17 +174,23 @@ export default function CommandPalette() {
                       : 'text-[var(--text-secondary)] hover:bg-[var(--bg-glass)]'
                   )}
                 >
-                  <span className="flex items-center gap-3">
-                    {Icon ? <Icon className="h-4 w-4" /> : <Search className="h-4 w-4 opacity-50" />}
-                    <span>
-                      <span className="block text-sm font-medium text-[var(--text-primary)]">
+                  <span className="flex min-w-0 items-center gap-3">
+                    {item.type === 'player' ? (
+                      <PlayerAvatar name={item.label} src={item.photo} size="sm" className="shrink-0 ring-1 ring-white/10" />
+                    ) : Icon ? (
+                      <Icon className="h-4 w-4 shrink-0" />
+                    ) : (
+                      <Search className="h-4 w-4 shrink-0 opacity-50" />
+                    )}
+                    <span className="min-w-0">
+                      <span className="block truncate text-sm font-medium text-[var(--text-primary)]">
                         {item.label}
                       </span>
-                      <span className="text-xs text-[var(--text-muted)]">{item.meta}</span>
+                      <span className="truncate text-xs text-[var(--text-muted)]">{item.meta}</span>
                     </span>
                   </span>
-                  <span className="text-[10px] uppercase tracking-wider text-[var(--text-muted)]">
-                    {item.type}
+                  <span className="ml-2 shrink-0 text-[10px] uppercase tracking-wider text-[var(--text-muted)]">
+                    {item.type === 'player' ? 'Player' : item.type}
                   </span>
                 </button>
               </li>

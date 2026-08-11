@@ -23,7 +23,7 @@ export default function DreamTeam() {
     <Section
       eyebrow="Build Your XI"
       title="Dream Team Builder"
-      description="Pick up to 11 legends. Your squad is saved in local storage."
+      description="Pick up to 11 legends. Your squad is saved locally and synced to your account when you're signed in."
     >
       <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end">
         <div className="flex-1">

@@ -128,6 +128,68 @@ export const getProfile = async (req, res) => {
   }
 };
 
+export const updateFavorites = async (req, res) => {
+  try {
+    const { favoriteLegends } = req.body;
+
+    if (!Array.isArray(favoriteLegends)) {
+      return res.status(400).json({
+        success: false,
+        message: 'favoriteLegends must be an array of legend ids'
+      });
+    }
+
+    const user = await User.findByIdAndUpdate(
+      req.user._id,
+      { favoriteLegends: favoriteLegends.map(String) },
+      { new: true, runValidators: true }
+    ).select('-password');
+
+    res.status(200).json({
+      success: true,
+      message: 'Favorites updated successfully',
+      user
+    });
+  } catch (error) {
+    console.error('Update favorites error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Server error updating favorites'
+    });
+  }
+};
+
+export const updateDreamTeam = async (req, res) => {
+  try {
+    const { dreamTeamLegends } = req.body;
+
+    if (!Array.isArray(dreamTeamLegends)) {
+      return res.status(400).json({
+        success: false,
+        message: 'dreamTeamLegends must be an array of legend ids'
+      });
+    }
+
+    const user = await User.findByIdAndUpdate(
+      req.user._id,
+      { dreamTeamLegends: dreamTeamLegends.map(String).slice(0, 11) },
+      { new: true, runValidators: true }
+    ).select('-password');
+
+    res.status(200).json({
+      success: true,
+      message: 'Dream team saved',
+      user
+    });
+  } catch (error) {
+    console.error('Update dream team error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Server error saving dream team'
+    });
+  }
+};
+
 export const updateProfile = async (req, res) => {
   try {
     const { name, email } = req.body;

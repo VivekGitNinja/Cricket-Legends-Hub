@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-label="Kapil Dev">
+  <defs>
+    <radialGradient id="bg" cx="35%" cy="30%" r="90%">
+      <stop offset="0%" stop-color="#f59e0b" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#7c3aed" stop-opacity="0.95"/>
+    </radialGradient>
+    <radialGradient id="ball" cx="40%" cy="35%" r="70%">
+      <stop offset="0%" stop-color="#f8fafc"/>
+      <stop offset="100%" stop-color="#cbd5e1"/>
+    </radialGradient>
+  </defs>
+  <rect width="256" height="256" rx="128" fill="url(#bg)"/>
+  <circle cx="196" cy="196" r="46" fill="url(#ball)" opacity="0.9"/>
+  <path d="M176 176 q16 -10 40 8" stroke="#475569" stroke-width="3" fill="none" opacity="0.7"/>
+  <path d="M168 210 q20 -22 52 -22" stroke="#475569" stroke-width="3" fill="none" opacity="0.7"/>
+  <text x="128" y="128" text-anchor="middle" dominant-baseline="central"
+        font-family="-apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif"
+        font-size="72" font-weight="800" fill="#ffffff" letter-spacing="2">
+    KD
+  </text>
+</svg>

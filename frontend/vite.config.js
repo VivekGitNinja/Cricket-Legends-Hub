@@ -1,4 +1,4 @@
-import { defineConfig } from 'vite'
+import { defineConfig } from 'vitest/config'
 import react from '@vitejs/plugin-react'
 
 export default defineConfig({
@@ -13,6 +13,16 @@ export default defineConfig({
         changeOrigin: true,
       },
     },
+  },
+  test: {
+    environment: 'jsdom',
+    environmentOptions: {
+      jsdom: { url: 'http://localhost/' },
+    },
+    globals: true,
+    setupFiles: ['./src/test/setup.js'],
+    css: false,
+    include: ['src/**/*.test.{js,jsx}'],
   },
   build: {
     target: 'es2020',

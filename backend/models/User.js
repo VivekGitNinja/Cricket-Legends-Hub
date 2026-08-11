@@ -35,6 +35,16 @@ const userSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Player'
   }],
+  // Legend ids from the curated frontend catalog (e.g. 'sachin-tendulkar')
+  favoriteLegends: [{
+    type: String,
+    trim: true
+  }],
+  // Dream XI built from the curated legend catalog
+  dreamTeamLegends: [{
+    type: String,
+    trim: true
+  }],
   bio: {
     type: String,
     maxlength: 500

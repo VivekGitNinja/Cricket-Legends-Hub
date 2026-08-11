@@ -46,7 +46,7 @@ export default function LegendDetail() {
       url: window.location.href,
     })
     if (result === 'copied') {
-      // eslint-disable-next-line no-alert
+       
       window.alert('Profile link copied to clipboard')
     }
   }
@@ -67,7 +67,15 @@ export default function LegendDetail() {
       />
       <section className="border-b border-[var(--border-subtle)] bg-white/[0.02] py-12">
         <div className="mx-auto flex max-w-[var(--container)] flex-col gap-8 px-4 sm:px-6 lg:flex-row lg:items-center lg:px-8">
-          <Avatar name={legend.name} src={legend.image} size="xl" className="shrink-0" />
+          <div className="relative shrink-0 self-center lg:self-auto">
+            <div className="absolute -inset-8 rounded-full bg-orange-500/25 blur-3xl" />
+            <Avatar
+              name={legend.name}
+              src={legend.image}
+              size="xl"
+              className="relative ring-2 ring-orange-400/40"
+            />
+          </div>
           <div className="flex-1">
             <div className="flex flex-wrap gap-2">
               <Badge tone="gold">#{legend.hallOfFameRank} Hall of Fame</Badge>
@@ -114,7 +122,7 @@ export default function LegendDetail() {
               </Button>
             </div>
           </div>
-          <Card hover={false} className="w-full max-w-xs p-5 text-center lg:w-auto">
+          <Card hover={false} shine={false} className="gradient-border w-full max-w-xs p-5 text-center lg:w-auto">
             <div className="flex items-center justify-center gap-2 text-amber-300">
               <Star className="h-5 w-5 fill-current" />
               <span className="font-display text-4xl font-bold">{goat.score}</span>

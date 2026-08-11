@@ -2,11 +2,11 @@ import { cn } from '../../utils/cn'
 
 const variants = {
   primary:
-    'bg-gradient-to-r from-orange-500 to-rose-600 text-white shadow-[var(--shadow-glow)] hover:brightness-110',
+    'bg-gradient-to-r from-[#235D94] to-[#0D4669] text-white shadow-[var(--shadow-glow)] hover:brightness-115',
   secondary:
     'bg-[var(--bg-glass-strong)] text-[var(--text-primary)] border border-[var(--border-subtle)] hover:border-[var(--border-strong)]',
   ghost: 'bg-transparent text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-glass)]',
-  gold: 'bg-gradient-to-r from-amber-400 to-orange-500 text-slate-950 font-semibold shadow-[var(--shadow-gold)]',
+  gold: 'bg-gradient-to-r from-[#539AC1] to-[#235D94] text-[#021B30] font-semibold shadow-[var(--shadow-gold)]',
   danger: 'bg-rose-500/15 text-rose-300 border border-rose-500/30 hover:bg-rose-500/25',
 }
 
@@ -28,7 +28,8 @@ export default function Button({
   return (
     <Comp
       className={cn(
-        'inline-flex items-center justify-center gap-2 font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg-base)] disabled:opacity-50 disabled:pointer-events-none active:scale-[0.98]',
+        'inline-flex items-center justify-center gap-2 font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#539AC1]/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg-base)] disabled:opacity-50 disabled:pointer-events-none active:scale-[0.98]',
+        (variant === 'primary' || variant === 'gold') && 'btn-shine',
         variants[variant],
         sizes[size],
         className

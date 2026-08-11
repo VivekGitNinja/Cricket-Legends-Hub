@@ -35,3 +35,6 @@ coverage/
 # Misc
 *.tmp
 *.temp
+
+# Local tooling state
+.freebuff/

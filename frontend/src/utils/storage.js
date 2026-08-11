@@ -23,6 +23,8 @@ export const storage = {
 
 export const STORAGE_KEYS = {
   theme: 'clh-theme',
+  token: 'clh-token',
+  user: 'clh-user',
   favorites: 'clh-favorites',
   bookmarks: 'clh-bookmarks',
   dreamTeam: 'clh-dream-team',

@@ -137,9 +137,15 @@ export const searchPlayers = async (req, res) => {
         { name: searchRegex },
         { fullName: searchRegex },
         { country: searchRegex },
-        { nickName: searchRegex }
+        { nickName: searchRegex },
+        { teams: searchRegex },
+        { role: searchRegex },
+        { battingStyle: searchRegex },
+        { bowlingStyle: searchRegex }
       ]
-    }).limit(10);
+    })
+      .sort({ isLegend: -1, rating: -1, name: 1 })
+      .limit(30);
 
     res.status(200).json({
       success: true,

@@ -14,7 +14,7 @@ export default function Avatar({ name, src, size = 'md', className }) {
   return (
     <div
       className={cn(
-        'relative overflow-hidden rounded-full bg-gradient-to-br from-orange-500 to-rose-600 ring-2 ring-white/10',
+        'relative overflow-hidden rounded-full bg-gradient-to-br from-[#2F74B4] to-[#0D4669] ring-2 ring-white/10',
         sizes[size],
         className
       )}

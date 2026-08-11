@@ -47,6 +47,8 @@ export function useKeyboardShortcuts() {
           d: '/dream-team',
           q: '/quiz',
           o: '/goat',
+          w: '/world-cups',
+          r: '/rankings',
           n: '/countries',
         }
         const path = map[e.key.toLowerCase()]
