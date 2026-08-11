@@ -1,5 +1,7 @@
 import { SITE } from '../config/site'
 import { LEGENDS, MATCHES } from '../data/legends'
+import { PLAYER_CATALOG, TEAMS as STATIC_TEAMS } from '../data/player-catalog'
+import { NEWS as STATIC_NEWS, QUIZ_QUESTIONS, RECORDS as STATIC_RECORDS, STREAMS as STATIC_STREAMS } from '../data/site-content'
 
 const API = SITE.apiUrl
 
@@ -35,18 +37,37 @@ export const api = {
     } catch {
       /* fall through */
     }
-    return { source: 'local', players: LEGENDS }
+    return { source: 'local', players: PLAYER_CATALOG }
   },
 
   async getPlayer(id) {
-    const data = await request(`/players/${id}`)
-    return data?.player || null
+    try {
+      const data = await request(`/players/${id}`)
+      if (data?.player) return data.player
+    } catch {
+      /* fall through to the bundled catalog */
+    }
+    const key = String(id || '').toLowerCase()
+    return (
+      PLAYER_CATALOG.find((p) => String(p._id).toLowerCase() === key || String(p.id).toLowerCase() === key) ||
+      null
+    )
   },
 
   async searchPlayers(query) {
-    if (!query || !String(query).trim()) return { players: [] }
-    const data = await request(`/players/search?query=${encodeURIComponent(query)}`)
-    return data?.players || []
+    const q = String(query || '').trim().toLowerCase()
+    if (!q) return []
+    try {
+      const data = await request(`/players/search?query=${encodeURIComponent(q)}`)
+      if (data?.players?.length) return data.players
+    } catch {
+      /* fall through */
+    }
+    return PLAYER_CATALOG.filter((p) =>
+      [p.name, p.fullName, p.nickName, p.country, p.role, (p.teams || []).join(' '), p.battingStyle]
+        .filter(Boolean)
+        .some((v) => v.toLowerCase().includes(q))
+    ).slice(0, 30)
   },
 
   async searchPlayersLocal(query, limit = 30) {
@@ -69,7 +90,7 @@ export const api = {
     } catch {
       /* fall through */
     }
-    return { source: 'local', teams: [] }
+    return { source: 'local', teams: STATIC_TEAMS }
   },
 
   async getMatches() {
@@ -126,23 +147,43 @@ export const api = {
   },
 
   async getNews() {
-    const data = await request('/news')
-    return data?.news || []
+    try {
+      const data = await request('/news')
+      if (data?.news?.length) return data.news
+    } catch {
+      /* fall through */
+    }
+    return STATIC_NEWS
   },
 
   async getStreams() {
-    const data = await request('/streams')
-    return data?.streams || []
+    try {
+      const data = await request('/streams')
+      if (data?.streams?.length) return data.streams
+    } catch {
+      /* fall through */
+    }
+    return STATIC_STREAMS
   },
 
   async getRecords() {
-    const data = await request('/records')
-    return data?.records || []
+    try {
+      const data = await request('/records')
+      if (data?.records?.length) return data.records
+    } catch {
+      /* fall through */
+    }
+    return STATIC_RECORDS
   },
 
   async getQuizQuestions() {
-    const data = await request('/quiz/questions')
-    return data?.questions || []
+    try {
+      const data = await request('/quiz/questions')
+      if (data?.questions?.length) return data.questions
+    } catch {
+      /* fall through */
+    }
+    return QUIZ_QUESTIONS
   },
 
   async getLeaderboard() {
