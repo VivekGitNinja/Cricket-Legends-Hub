@@ -39,6 +39,7 @@ export default [
         performance: 'readonly',
         requestAnimationFrame: 'readonly',
         cancelAnimationFrame: 'readonly',
+        EventSource: 'readonly',
       },
     },
     plugins: {

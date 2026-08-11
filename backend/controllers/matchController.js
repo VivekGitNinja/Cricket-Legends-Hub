@@ -1,6 +1,8 @@
 import Match from '../models/Match.js';
 import Team from '../models/Team.js';
 import Player from '../models/Player.js';
+import { getScorecard } from '../services/cricbuzz.js';
+import * as liveHub from '../services/liveHub.js';
 
 /** Deterministic PRNG (mulberry32) so live scores are stable per ball but advance with time. */
 function seededRand(seed) {
@@ -413,8 +415,41 @@ const enrichWithScorecard = (matches) =>
       return m;
     })
   );
+const REAL_LIVE = () => liveHub.getSnapshot().matches.filter((m) => m.status === 'Live');
+const REAL_UPCOMING = () => liveHub.getSnapshot().matches.filter((m) => m.status === 'Scheduled');
+const REAL_COMPLETED = () => liveHub.getSnapshot().matches.filter((m) => m.status === 'Completed');
+
+const fromCricbuzz = (id) => liveHub.getSnapshot().matches.find((m) => String(m.matchId) === String(id));
+
+/** Wrap a real cricbuzz scorecard in the frontend's match detail shape. */
+async function realMatchDetail(id, base) {
+  const sc = await getScorecard(id);
+  const innings = sc.innings;
+  const live = base.liveScore;
+  return {
+    ...base,
+    liveScore: live,
+    scorecard: { innings },
+    result: base.state === 'Complete' ? { winner: null, margin: null, text: base.status } : null,
+  };
+}
+
 export const getMatches = async (req, res) => {
   try {
+    const snap = liveHub.getSnapshot();
+    if (snap.matches.length && !snap.stale) {
+      const real = snap.matches;
+      return res.status(200).json({
+        success: true,
+        count: real.length,
+        total: real.length,
+        page: 1,
+        totalPages: 1,
+        source: 'cricbuzz',
+        fetchedAt: snap.fetchedAt,
+        matches: real,
+      });
+    }
     const { format, status, team, page = 1, limit = 10 } = req.query;
     const query = {};
 
@@ -454,6 +489,15 @@ export const getMatches = async (req, res) => {
 
 export const getMatch = async (req, res) => {
   try {
+    const base = fromCricbuzz(req.params.id);
+    if (base) {
+      const match = await realMatchDetail(req.params.id, base);
+      return res.status(200).json({
+        success: true,
+        source: 'cricbuzz',
+        match
+      });
+    }
     const match = await Match.findById(req.params.id)
       .populate(POPULATE);
 
@@ -466,6 +510,7 @@ export const getMatch = async (req, res) => {
 
     res.status(200).json({
       success: true,
+      source: 'db',
       match: (await enrichWithScorecard(attachLive([match])))[0]
     });
   } catch (error) {
@@ -479,6 +524,17 @@ export const getMatch = async (req, res) => {
 
 export const getLiveMatches = async (req, res) => {
   try {
+    const snap = liveHub.getSnapshot();
+    const real = REAL_LIVE();
+    if (real.length && !snap.stale) {
+      return res.status(200).json({
+        success: true,
+        count: real.length,
+        source: 'cricbuzz',
+        fetchedAt: snap.fetchedAt,
+        matches: real
+      });
+    }
     const matches = await Match.find({
       $or: [{ status: 'Live' }, { 'live.inProgress': true }]
     })
@@ -488,6 +544,7 @@ export const getLiveMatches = async (req, res) => {
     res.status(200).json({
       success: true,
       count: matches.length,
+      source: 'db',
       matches: await enrichWithScorecard(attachLive(matches))
     });
   } catch (error) {
@@ -501,7 +558,18 @@ export const getLiveMatches = async (req, res) => {
 
 export const getUpcomingMatches = async (req, res) => {
   try {
-    const { limit = 30 } = req.query;
+    const { limit = 50 } = req.query;
+    const snap = liveHub.getSnapshot();
+    const real = REAL_UPCOMING();
+    if (real.length && !snap.stale) {
+      return res.status(200).json({
+        success: true,
+        count: real.length,
+        source: 'cricbuzz',
+        fetchedAt: snap.fetchedAt,
+        matches: real.slice(0, Number(limit))
+      });
+    }
     const matches = await Match.find({
       status: 'Scheduled',
       date: { $gte: new Date() }
@@ -513,6 +581,7 @@ export const getUpcomingMatches = async (req, res) => {
     res.status(200).json({
       success: true,
       count: matches.length,
+      source: 'db',
       matches: await enrichWithScorecard(attachLive(matches))
     });
   } catch (error) {
@@ -526,6 +595,16 @@ export const getUpcomingMatches = async (req, res) => {
 
 export const getMatchLive = async (req, res) => {
   try {
+    const base = fromCricbuzz(req.params.id);
+    if (base) {
+      const match = await realMatchDetail(req.params.id, base);
+      return res.status(200).json({
+        success: true,
+        live: base.status === 'Live',
+        source: 'cricbuzz',
+        match
+      });
+    }
     const match = await Match.findById(req.params.id)
       .populate(POPULATE);
 
@@ -540,6 +619,7 @@ export const getMatchLive = async (req, res) => {
     res.status(200).json({
       success: true,
       live: isLive,
+      source: 'db',
       match: (await enrichWithScorecard(attachLive([match])))[0]
     });
   } catch (error) {

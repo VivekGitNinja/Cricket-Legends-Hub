@@ -14,6 +14,8 @@ import newsRoutes from './routes/newsRoutes.js';
 import streamRoutes from './routes/streamRoutes.js';
 import quizRoutes from './routes/quizRoutes.js';
 import recordRoutes from './routes/recordRoutes.js';
+import liveRoutes from './routes/liveRoutes.js';
+import * as liveHub from './services/liveHub.js';
 
 dotenv.config();
 
@@ -51,6 +53,7 @@ app.use('/api/news', newsRoutes);
 app.use('/api/streams', streamRoutes);
 app.use('/api/quiz', quizRoutes);
 app.use('/api/records', recordRoutes);
+app.use('/api/live', liveRoutes);
 
 app.get('/api', (req, res) => {
   res.json({ message: 'Welcome to Cricket Legends Hub API v1.0.0' });

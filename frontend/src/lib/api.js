@@ -93,6 +93,34 @@ export const api = {
     return data?.match || null
   },
 
+  /**
+   * Subscribe to real-time live score pushes (Server-Sent Events).
+   * Returns an unsubscribe function. Falls back to null if SSE is unavailable.
+   */
+  subscribeLive(onUpdate) {
+    if (typeof EventSource === 'undefined') return null
+    let es
+    try {
+      es = new EventSource(`${API}/live/stream`)
+    } catch {
+      return null
+    }
+    es.addEventListener('message', (event) => {
+      try {
+        const data = JSON.parse(event.data)
+        if (data.type === 'update' || data.type === 'snapshot') {
+          onUpdate(data.matches || [], data)
+        }
+      } catch {
+        /* ignore malformed frames */
+      }
+    })
+    es.onerror = () => {
+      /* the caller's fallback polling takes over */
+    }
+    return () => es.close()
+  },
+
   async getNews() {
     const data = await request('/news')
     return data?.news || []

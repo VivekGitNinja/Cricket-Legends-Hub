@@ -10,22 +10,27 @@ import Button from '../components/ui/Button'
 import Skeleton from '../components/ui/Skeleton'
 import { cn } from '../utils/cn'
 
-const POLL_MS = 20000
+const POLL_MS = 20000 // fallback only — SSE pushes updates instantly when available
 
 function ScoreBlock({ team, score, batting, align }) {
-  if (!score) return null
   return (
     <div className={cn('flex flex-col gap-1', align === 'right' ? 'items-end text-right' : 'items-start')}>
       <span className="flex items-center gap-1.5 text-sm font-semibold text-[var(--text-primary)]">
         {batting && <span className="live-dot h-1.5 w-1.5 rounded-full bg-[#539AC1]" />}
         {team}
       </span>
-      <span className="font-display text-2xl font-bold tabular-nums text-[var(--text-primary)]">
-        {score.runs}/{score.wickets}
-      </span>
-      <span className="text-xs text-[var(--text-muted)]">
-        {score.overs} ov · RR {score.runRate}
-      </span>
+      {score ? (
+        <>
+          <span className="font-display text-2xl font-bold tabular-nums text-[var(--text-primary)]">
+            {score.runs}/{score.wickets}
+          </span>
+          <span className="text-xs text-[var(--text-muted)]">
+            {score.overs} ov · RR {score.runRate}
+          </span>
+        </>
+      ) : (
+        <span className="text-xs text-[var(--text-muted)]">Yet to bat</span>
+      )}
     </div>
   )
 }
@@ -34,23 +39,23 @@ function LiveMatchCard({ m }) {
   const ls = m.liveScore
   const t1 = m.team1?.shortName || m.team1?.name || 'Home'
   const t2 = m.team2?.shortName || m.team2?.name || 'Away'
-  const phase = ls?.phase
+  const isLive = m.status === 'Live' || (ls && ls.phase !== 'complete')
 
   return (
     <Card className="relative overflow-hidden p-6">
-      {phase !== 'complete' && (
+      {isLive && (
         <span className="absolute right-4 top-4 flex items-center gap-1.5 rounded-full bg-[#235D94]/15 px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest text-[#7EC8F2]">
           <span className="live-dot h-1.5 w-1.5 rounded-full bg-[#539AC1]" /> Live
         </span>
       )}
       <p className="text-xs font-semibold uppercase tracking-wide text-[var(--text-muted)]">{m.series}</p>
       <div className="mt-4 flex items-start justify-between gap-4">
-        <ScoreBlock team={t1} score={ls?.score1} batting={phase === 'innings-1'} />
+        <ScoreBlock team={t1} score={ls?.score1} batting={!!ls?.score1 && !ls?.score2} />
         <span className="mt-1 text-sm text-[var(--text-muted)]">vs</span>
-        <ScoreBlock team={t2} score={ls?.score2} batting={phase === 'chase'} align="right" />
+        <ScoreBlock team={t2} score={ls?.score2} batting={!!ls?.score2} align="right" />
       </div>
       <p className="mt-4 rounded-xl bg-[var(--bg-glass)] px-4 py-2.5 text-sm font-medium text-[var(--text-secondary)]">
-        {ls?.summary}
+        {ls?.summary || m.status || 'Match in progress'}
       </p>
       <div className="mt-4 flex items-center justify-between text-xs text-[var(--text-muted)]">
         <span>{m.venue?.name || 'TBD'}</span>
@@ -73,11 +78,11 @@ function CommentaryPanel({ lines }) {
   return (
     <Card hover={false} className="flex max-h-[26rem] flex-col p-6">
       <h3 className="flex items-center gap-2 font-display text-lg font-semibold text-[var(--text-primary)]">
-        <Radio className="h-4 w-4 text-[#7EC8F2]" /> Live commentary
+        <Radio className="h-4 w-4 text-[#7EC8F2]" /> Live feed
       </h3>
       <ul className="mt-4 flex-1 space-y-3 overflow-y-auto pr-1 text-sm">
         {lines.length === 0 && (
-          <li className="text-[var(--text-muted)]">Waiting for the first ball…</li>
+          <li className="text-[var(--text-muted)]">Waiting for live ball-by-ball updates…</li>
         )}
         {lines.map((c, i) => (
           <motion.li
@@ -154,13 +159,20 @@ export default function Live() {
   const [streams, setStreams] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
+  const [livePush, setLivePush] = useState(false)
   const timer = useRef(null)
+  const unwatch = useRef(null)
 
-  const load = () => {
+  const load = (fromPush) => {
     Promise.allSettled([api.getLiveMatches(), api.getStreams()])
       .then(([mRes, sRes]) => {
-        setMatches(mRes.status === 'fulfilled' ? mRes.value : [])
-        setStreams(sRes.status === 'fulfilled' ? sRes.value : [])
+        if (fromPush && mRes.status === 'fulfilled' && mRes.value.length) {
+          // keep the SSE snapshot (fresher) and only refresh streams
+          setStreams(sRes.status === 'fulfilled' ? sRes.value : [])
+        } else {
+          setMatches(mRes.status === 'fulfilled' ? mRes.value : [])
+          setStreams(sRes.status === 'fulfilled' ? sRes.value : [])
+        }
         setError(false)
       })
       .catch(() => setError(true))
@@ -169,18 +181,34 @@ export default function Live() {
 
   useEffect(() => {
     load()
-    timer.current = setInterval(load, POLL_MS)
-    return () => clearInterval(timer.current)
+    // Real-time push via SSE; the interval is only a fallback.
+    const off = api.subscribeLive((pushed) => {
+      setMatches(pushed)
+      setLivePush(true)
+    })
+    unwatch.current = off
+    timer.current = setInterval(() => load(!!off), POLL_MS)
+    return () => {
+      clearInterval(timer.current)
+      if (unwatch.current) unwatch.current()
+    }
   }, [])
 
-  // Aggregate commentary across live matches for the feed
-  const commentary = matches.flatMap((m) =>
-    (m.liveScore?.commentary || []).map((c) => ({
-      ...c,
-      match: `${m.team1?.shortName || 'T1'} vs ${m.team2?.shortName || 'T2'}`,
-    }))
-  )
-  commentary.sort((a, b) => b.over.localeCompare(a.over, undefined, { numeric: true }))
+  // Aggregate the live feed across matches — real status lines, newest first
+  const commentary = matches.flatMap((m) => {
+    const line = m.liveScore?.summary || m.status
+    const time = m.liveScore?.lastUpdated ? new Date(m.liveScore.lastUpdated).getTime() : 0
+    return [
+      {
+        id: `${m._id}-${time}`,
+        time,
+        over: 'LIVE',
+        text: line,
+        match: `${m.team1?.shortName || 'T1'} vs ${m.team2?.shortName || 'T2'}`,
+      },
+    ]
+  })
+  commentary.sort((a, b) => b.time - a.time)
 
   const liveStreams = streams.filter((s) => s.isLive)
   const upcomingStreams = streams.filter((s) => !s.isLive)
@@ -189,8 +217,12 @@ export default function Live() {
     <Section
       eyebrow="Live & Streaming"
       title="Match Centre"
-      description="Live scores, ball-by-ball commentary and stream links — refreshed every 20 seconds."
-      action={<Badge tone={matches.length ? 'emerald' : 'muted'}>{matches.length ? `${matches.length} live` : 'Live'} · polling</Badge>}
+      description="Real live scores from Cricbuzz — pushed the instant they change."
+      action={
+        <Badge tone={matches.length ? 'emerald' : 'muted'}>
+          {matches.length ? `${matches.length} live` : 'Live'} · {livePush ? 'real-time' : 'polling'}
+        </Badge>
+      }
     >
       {loading ? (
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">

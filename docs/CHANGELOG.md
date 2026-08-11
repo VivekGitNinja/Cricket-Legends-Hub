@@ -1,5 +1,17 @@
 # Changelog
 
+## 2.9.0 — 2026-08-11
+
+### Real live cricket — real scores, real dates, real-time push
+
+- **Real match data from Cricbuzz** (free, no API key): live scores, completed results and upcoming fixtures now come from the actual source — real teams, real venues (Old Trafford, Sabina Park…), real series (The Hundred, CPL, Afghanistan tour of Ireland…) and **real start dates/times** instead of seeded placeholder fixtures
+- **Zero-delay updates via Server-Sent Events** — the backend polls Cricbuzz every 12s and broadcasts score changes the moment they're seen; the Live page subscribes over SSE so scores advance on screen with no reload and no client polling delay (verified live: SUL 113/6 → 117/6 while the page sat open). The 20s interval remains only as a fallback if SSE is unavailable
+- **Real full scorecards** — match detail pages now render genuine innings: real batters with real dismissals ("c Sonny Baker b Noor Ahmad"), real bowling figures, extras, fall of wickets and partnerships, scraped from Cricbuzz's server-rendered scorecard pages
+- **New `/api/live/stream` SSE endpoint** + `/api/live/now` snapshot endpoint; `/api/matches`, `/live`, `/upcoming` and `/:id` all serve real data first with the seeded database as an automatic offline fallback
+- **Live page rebuilt around real data** — "real-time" badge, live feed of real status lines, team names shown before they bat; Matches page tabs (Live now / Upcoming / Completed) and Home "Live Today" all show the real fixtures with live countdowns
+- Resilient scraper (`backend/services/cricbuzz.js`): direct fetch with jina-reader proxy fallback, short-TTL cache, last-good-snapshot serving when the source is unreachable; matches normalized to the existing frontend shape so nothing downstream changed
+- Verified: backend 19/19 tests, frontend build clean + 33/33 tests + 0 lint errors, console clean, scorecard + countdowns + SSE push all confirmed in the preview
+
 ## 2.8.0 — 2026-08-11
 
 ### Paradigm navy/blue redesign — inspired by the Dribbble tech-consulting shot
