@@ -1,5 +1,14 @@
 # Changelog
 
+## 2.10.0 — 2026-08-12
+
+### The hosted site is now fully self-sufficient — every page works on GitHub Pages
+
+- **Complete dataset bundled into the frontend** — a new generator (`scripts/build-static-data.mjs`) compiles the full backend data into the app: **350 players with photos/avatars across every nation**, 23 national teams with captains and full squads, news articles, stream channels, records and quiz questions. `api.js` serves all of it as the automatic offline fallback whenever the API is unreachable, so Players, player detail, Squads, News, Live, Records and Quiz all render fully on the static-hosted site (previously most of these pages were empty or showed a tiny 22-legend subset there)
+- **Service worker rewritten** — old SW cached stale builds forever and precached out-of-scope URLs, so returning visitors saw broken/outdated pages. Now network-first for navigations with a cache-version bump: every visit gets the current build, with offline fallback still intact
+- **Honest API errors** — when no backend is reachable the UI explains it ("Live backend offline" with a pointer to `docs/DEPLOY_BACKEND.md`) instead of a confusing "Match not found"
+- Verified page-by-page against the production build served at the real `/Cricket-Legends-Hub/` subpath: Home, Players (350 cards), player detail (Don Bradman, full career stats + photo), Squads (all nations), News, Live (streams), Records, Quiz — all rendering from bundled data; 33/33 frontend tests, 0 lint errors
+
 ## 2.9.0 — 2026-08-11
 
 ### Real live cricket — real scores, real dates, real-time push
