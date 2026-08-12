@@ -1,0 +1,6 @@
+import{j as e}from"./motion-g2mqi5QN.js";import{c as n,B as d}from"./index-XPiPVA-6.js";/**
+ * @license lucide-react v0.469.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */const l=n("Inbox",[["polyline",{points:"22 12 16 12 14 15 10 15 8 12 2 12",key:"o97t9d"}],["path",{d:"M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z",key:"oot6mr"}]]);function c({title:s="Nothing here yet",description:a="Try adjusting filters or explore legends.",actionLabel:t,onAction:r,icon:o=l}){return e.jsxs("div",{className:"flex flex-col items-center justify-center rounded-[var(--radius-2xl)] border border-dashed border-[var(--border-subtle)] bg-[var(--bg-glass)] px-6 py-16 text-center",children:[e.jsx("div",{className:"mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-orange-500/10 text-orange-400",children:e.jsx(o,{className:"h-7 w-7","aria-hidden":"true"})}),e.jsx("h3",{className:"font-display text-xl font-semibold text-[var(--text-primary)]",children:s}),e.jsx("p",{className:"mt-2 max-w-md text-sm text-[var(--text-secondary)]",children:a}),t&&r&&e.jsx(d,{className:"mt-6",onClick:r,children:t})]})}export{c as E};

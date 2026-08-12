@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" fill="none">
+  <rect width="1200" height="630" fill="#05070d"/>
+  <circle cx="200" cy="120" r="220" fill="#f97316" fill-opacity="0.18"/>
+  <circle cx="1000" cy="500" r="260" fill="#0ea5e9" fill-opacity="0.12"/>
+  <text x="80" y="280" fill="#f8fafc" font-family="Arial, sans-serif" font-size="72" font-weight="700">Cricket Legends Hub</text>
+  <text x="80" y="360" fill="#94a3b8" font-family="Arial, sans-serif" font-size="32">The Ultimate Cricket Legends Experience</text>
+  <text x="80" y="430" fill="#f97316" font-family="Arial, sans-serif" font-size="24">Compare · Rank · Build · Celebrate</text>
+</svg>

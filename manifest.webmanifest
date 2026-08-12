@@ -1,0 +1,24 @@
+{
+  "name": "Cricket Legends Hub",
+  "short_name": "CLH",
+  "description": "The ultimate cricket legends experience with rankings, comparisons, and career timelines.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#05070d",
+  "theme_color": "#05070d",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/apple-touch-icon.svg",
+      "sizes": "180x180",
+      "type": "image/svg+xml"
+    }
+  ],
+  "categories": ["sports", "entertainment"]
+}
